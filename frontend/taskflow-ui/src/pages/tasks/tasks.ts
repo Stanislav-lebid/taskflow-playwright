@@ -1,10 +1,25 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-tasks',
   standalone: true,
-  imports: [RouterLink],
-  templateUrl: './tasks.html',
+  imports: [CommonModule],
+  template: `
+    <h1>Tasks</h1>
+
+    <ul>
+      <li *ngFor="let task of tasks">
+        {{ task.title }}
+      </li>
+    </ul>
+  `
 })
-export class Tasks {}
+export class TasksPage {
+  tasks: any[] = [];
+
+  constructor(private http: HttpClient) {
+    this.http.get<any[]>('http://localhost:3001/tasks')
+      .subscribe(data => this.tasks = data);
+  }
+}

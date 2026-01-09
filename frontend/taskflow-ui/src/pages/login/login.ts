@@ -1,21 +1,30 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../app/auth/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-login',
   standalone: true,
-  imports: [RouterLink],
-  templateUrl: './login.html',
+  imports: [CommonModule],
+  template: `
+    <h1>Login</h1>
+    <button (click)="login()">Fake login</button>
+  `
 })
-export class Login {
+export class LoginPage {
+
   constructor(
-    private auth: AuthService,
+    private http: HttpClient,
     private router: Router
   ) {}
 
   login() {
-    this.auth.login();
-    this.router.navigate(['/dashboard']);
+    this.http.post<any>('http://localhost:3001/auth/login', {
+      email: 'test@test.com',
+      password: '123456'
+    }).subscribe(res => {
+      localStorage.setItem('token', res.token);
+      this.router.navigate(['/tasks']);
+    });
   }
 }
