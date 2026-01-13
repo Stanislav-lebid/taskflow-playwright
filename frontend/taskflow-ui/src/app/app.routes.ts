@@ -4,7 +4,11 @@ import { TasksPage } from '../pages/tasks/tasks';
 import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginPage },
+  {
+  path: 'login',
+  loadComponent: () =>
+    import('../pages/login/login').then(m => m.LoginPage),
+},
   {
     path: 'tasks',
     component: TasksPage,

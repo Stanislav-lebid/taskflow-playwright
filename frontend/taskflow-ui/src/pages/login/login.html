@@ -1,2 +1,42 @@
-<h1>Login</h1>
-<button (click)="fakeLogin()">Fake login</button>
+<div class="login-wrapper">
+  <div class="login-card">
+    <h1>Login</h1>
+
+    <input
+      type="email"
+      placeholder="Email"
+      [(ngModel)]="email"
+      [disabled]="loading"
+    />
+
+    <div class="password-field">
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Password"
+        [(ngModel)]="password"
+        [disabled]="loading"
+      />
+
+      <button
+        type="button"
+        class="eye"
+        (click)="togglePassword()"
+        [disabled]="loading"
+      >
+        👁
+      </button>
+    </div>
+
+    <div class="error" *ngIf="error">
+      {{ error }}
+    </div>
+
+    <button
+      class="login-btn"
+      (click)="login()"
+      [disabled]="loading"
+    >
+      {{ loading ? 'Loading...' : 'Login' }}
+    </button>
+  </div>
+</div>
